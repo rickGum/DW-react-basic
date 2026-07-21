@@ -1,49 +1,44 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from "react";
-import Navbar from "./components/Navbar";
-import ProductCard from "./components/ProductCard";
 
-import laptop from "./assets/laptop.jpg";
-import mouse from "./assets/mouse.jpg";
-import keyboard from "./assets/keyboard.jpg";
+import Header from "./components/Header";
+
+import Home from "./pages/Home";
+import Products from "./pages/Products";
+import ProductDetail from "./pages/ProductDetail";
+import Cart from "./pages/Cart";
 
 function App() {
-  const [cartCount, setCartCount] = useState(0);
-
-  const products = [
-    {
-      id: 1,
-      name: "Gaming Laptop",
-      price: 15000000,
-      image: laptop,
-    },
-    {
-      id: 2,
-      name: "Wireless Mouse",
-      price: 350000,
-      image: mouse,
-    },
-    {
-      id: 3,
-      name: "Mechanical Keyboard",
-      price: 850000,
-      image: keyboard,
-    },
-  ];
+  const [cart, setCart] = useState([]);
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <Navbar cartCount={cartCount} />
+    <BrowserRouter>
+      <Header cart={cart} />
 
-      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 p-8 sm:grid-cols-2 lg:grid-cols-3">
-        {products.map((product) => (
-          <ProductCard
-            key={product.id}
-            {...product}
-            setCartCount={setCartCount}
-          />
-        ))}
-      </div>
-    </div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+
+        <Route
+          path="/products"
+          element={
+            <Products
+              cart={cart}
+              setCart={setCart}
+            />
+          }
+        />
+
+        <Route
+          path="/products/:id"
+          element={<ProductDetail />}
+        />
+
+        <Route
+          path="/cart"
+          element={<Cart cart={cart} />}
+        />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

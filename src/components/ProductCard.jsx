@@ -1,42 +1,50 @@
-import { useState } from "react";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
-function ProductCard({ name, price, image, setCartCount }) {
-  const [added, setAdded] = useState(false);
+function ProductCard({ product, cart, setCart }) {
 
-  const handleCart = () => {
-    if (added) {
-      setCartCount((prev) => prev - 1);
-    } else {
-      setCartCount((prev) => prev + 1);
+  const isAdded = cart.some(item => item.id === product.id);
+
+  const handleAdd = () => {
+    if (!isAdded) {
+      setCart([...cart, product]);
     }
-
-    setAdded(!added);
   };
 
   return (
-    <div className="overflow-hidden rounded-xl bg-white shadow-md transition hover:-translate-y-2 hover:shadow-xl">
-      <img src={image} alt="Product" className="h-56 w-full object-cover" />
+    <div className="border rounded-xl shadow-lg overflow-hidden p-4">
 
-      <div className="space-y-4 p-5">
-        <div>
-          <h2 className="text-xl font-bold">{name}</h2>
+      <img
+        src={product.image}
+        alt={product.name}
+        className="w-full h-52 object-cover rounded"
+      />
 
-          <p className="mt-1 text-lg font-semibold text-blue-600">
-            Harga {price}
-          </p>
-        </div>
+      <h2 className="text-xl font-bold mt-4">
+        {product.name}
+      </h2>
 
-        <button
-          onClick={handleCart}
-          className={`w-full rounded-lg py-3 font-semibold text-white transition ${
-            added
-              ? "bg-green-500 hover:bg-green-600"
-              : "bg-blue-600 hover:bg-blue-700"
-          }`}
+      <p className="text-gray-600">
+        Rp {product.price}
+      </p>
+
+      <div className="flex gap-2 mt-4">
+
+        <Button asChild variant="outline">
+          <Link to={`/products/${product.id}`}>
+            Detail
+          </Link>
+        </Button>
+
+        <Button
+          onClick={handleAdd}
+          disabled={isAdded}
         >
-          {added ? " Added" : " Add to Cart"}
-        </button>
+          {isAdded ? "Added" : "Add to Cart"}
+        </Button>
+
       </div>
+
     </div>
   );
 }
