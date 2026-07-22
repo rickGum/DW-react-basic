@@ -10,10 +10,15 @@ import Cart from "./pages/Cart";
 
 function App() {
   const [cart, setCart] = useState([]);
+  const [search, setSearch] = useState("");
 
   return (
     <BrowserRouter>
-      <Header cart={cart} />
+      <Header
+        cart={cart}
+        search={search}
+        setSearch={setSearch}
+      />
 
       <Routes>
         <Route path="/" element={<Home />} />
@@ -24,19 +29,14 @@ function App() {
             <Products
               cart={cart}
               setCart={setCart}
+              search={search}
             />
           }
         />
 
-        <Route
-          path="/products/:id"
-          element={<ProductDetail />}
-        />
+        <Route path="/products/:id" element={<ProductDetail />} />
 
-        <Route
-          path="/cart"
-          element={<Cart cart={cart} />}
-        />
+        <Route path="/cart" element={<Cart cart={cart} />} />
       </Routes>
     </BrowserRouter>
   );
