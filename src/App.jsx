@@ -7,6 +7,9 @@ import Home from "./pages/Home";
 import Products from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
 import Cart from "./pages/Cart";
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -20,24 +23,46 @@ function App() {
         setSearch={setSearch}
       />
 
-      <Routes>
-        <Route path="/" element={<Home />} />
+<Routes>
 
-        <Route
-          path="/products"
-          element={
-            <Products
-              cart={cart}
-              setCart={setCart}
-              search={search}
-            />
-          }
-        />
+  <Route path="/" element={<Home />} />
 
-        <Route path="/products/:id" element={<ProductDetail />} />
+  <Route
+    path="/products"
+    element={
+      <Products
+        cart={cart}
+        setCart={setCart}
+        search={search}
+      />
+    }
+  />
 
-        <Route path="/cart" element={<Cart cart={cart} />} />
-      </Routes>
+  <Route
+    path="/products/:id"
+    element={<ProductDetail />}
+  />
+
+  <Route
+    path="/cart"
+    element={<Cart cart={cart} />}
+  />
+
+  <Route
+    path="/login"
+    element={<Login />}
+  />
+
+  <Route
+    path="/dashboard"
+    element={
+      <PrivateRoute>
+        <Dashboard />
+      </PrivateRoute>
+    }
+  />
+
+</Routes>
     </BrowserRouter>
   );
 }
